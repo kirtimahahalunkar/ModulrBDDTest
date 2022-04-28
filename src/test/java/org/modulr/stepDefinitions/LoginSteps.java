@@ -1,5 +1,6 @@
 package org.modulr.stepDefinitions;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -7,6 +8,9 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.modulr.factory.DriverFactory;
 import org.modulr.modulrPages.LoginPage;
+
+import java.util.List;
+import java.util.Map;
 
 public class LoginSteps  {
 
@@ -105,5 +109,23 @@ public class LoginSteps  {
         Assert.assertTrue("Failed to sent email to user", loginPage.isEmailSent());
         System.out.println("Email sent to user");
 
+    }
+
+    @Given("the user login to modular")
+    public void the_user_login_to_modular() throws InterruptedException {
+        DriverFactory.getDriver().get("https://secure-sandbox.modulrfinance.com/");
+        Thread.sleep(5000);
+        Assert.assertTrue("Failed to login ",loginPage.login("abc" ,"abc"));
+    }
+
+    @Given("user has already logged in to application")
+    public void user_has_already_logged_in_to_application( DataTable dataTable) throws InterruptedException{
+        List<Map<String,String>> loginDetails =  dataTable.asMaps();
+        uname=loginDetails.get(0).get("userName");
+        pass=loginDetails.get(0).get("password");
+
+        DriverFactory.getDriver().get("https://secure-sandbox.modulrfinance.com/");
+        Thread.sleep(5000);
+        Assert.assertTrue("Failed to login ",loginPage.login(uname ,pass));
     }
 }

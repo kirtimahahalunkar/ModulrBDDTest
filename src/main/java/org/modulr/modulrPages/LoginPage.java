@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +101,25 @@ public class LoginPage {
         return errMsgList;
 
     }
+
+    public boolean login(String uname,String pass)
+    {
+        try {
+            driver.findElement(userName).sendKeys(uname);
+            driver.findElement(password).sendKeys(pass);
+            driver.findElement(signInBtn).click();
+            Thread.sleep(10000);
+            System.out.println("Logged in with user "+uname + " and Password "+pass);
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+
 
 
 
